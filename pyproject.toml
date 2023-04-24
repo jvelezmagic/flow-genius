@@ -14,6 +14,7 @@ fastapi = "^0.95.1"
 uvicorn = "^0.21.1"
 python-dotenv = "^1.0.0"
 ai21 = "^1.0.5"
+uuid = "^1.30"
 
 
 [tool.poetry.group.dev.dependencies]
