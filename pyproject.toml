@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "flow-genius"
+version = "0.1.0"
+description = ""
+authors = ["Jesús Vélez Santiago <jvelezmagic@gmail.com>"]
+readme = "README.md"
+packages = [{include = "flow_genius"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
