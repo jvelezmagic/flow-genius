@@ -1,12 +1,12 @@
-from fastapi import APIRouter
-from typing import Union
+from fastapi import APIRouter, Body
 from app.api.v1.controllers import agent_controllers
 
 router = APIRouter(prefix='/agent')
 
 
 @router.post("/query")
-async def query_agent(prompt: Union[str, None]) -> str:
+async def query_agent(payload: dict = Body(...)) -> str:
+    prompt = payload['prompt']
     if prompt is None:
         raise ValueError('Prompt is required')
 

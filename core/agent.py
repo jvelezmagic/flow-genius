@@ -1,5 +1,5 @@
 import yaml
-
+import os
 from langchain.agents.agent_toolkits.openapi.spec import reduce_openapi_spec
 from langchain.llms.ai21 import AI21
 from langchain.agents.agent_toolkits.openapi import planner
@@ -19,25 +19,29 @@ class FlowGeniusAgent:
 
         self.openapi_template = openapi_template
         self.load_openapi_template()
+        self.create_request_wrapper()
 
         if llm is None:
-            self.llm = AI21(model_name="j2-jumbo-instruct", temperature=0.0)
-        self.llm = llm
+            self.llm = AI21(model="j2-jumbo-instruct")
+        else:
+            self.llm = llm
 
         # TODO agent should have memory to keep in mind the before questions and answer.
 
     def load_openapi_template(self):
-        with open(self.openapi_template) as f:
+        print(os.getcwd())
+        path = os.getcwd() + os.sep + 'openapi' + os.sep + self.openapi_template
+        with open(path) as f:
             self.raw_openai_api_spec = yaml.load(f, Loader=yaml.Loader)
         self.openai_api_spec = reduce_openapi_spec(self.raw_openai_api_spec)
 
     def create_request_wrapper(self):
         headers = custom_auth_headers(self.raw_openai_api_spec)
-        self.requests_wrapper = RequestsWrapper(headers=headers)
+        self.requests_wrapper = RequestsWrapper()
 
     def run(self, prompt):
         agent = planner.create_openapi_agent(self.openai_api_spec, self.requests_wrapper, self.llm)
-        agent.run(prompt)
+        return agent.run(prompt)
 
 
 def custom_auth_headers(token):
