@@ -1,4 +1,4 @@
-# Flow Genius
+# 🧞 Flow Genius
 
 ## 👷‍♀️ One time setup
 
@@ -27,6 +27,13 @@ poetry config virtualenvs.in-project true
 ```bash
 poetry install
 ```
+
+## 🔑 Set project secrets
+
+Store your secrets in the `.env` file and refer to the `.env.example` file for guidance.
+
+- [OpenAI API Key](https://platform.openai.com/account/api-keys)
+- [AI21](https://studio.ai21.com/account)
 
 ## 💁‍♀️ How to use
 
