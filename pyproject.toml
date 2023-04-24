@@ -8,7 +8,16 @@ packages = [{include = "flow_genius"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+langchain = "^0.0.147"
+openai = "^0.27.4"
+fastapi = "^0.95.1"
+uvicorn = "^0.21.1"
+python-dotenv = "^1.0.0"
+ai21 = "^1.0.5"
 
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
 
 [build-system]
 requires = ["poetry-core"]
