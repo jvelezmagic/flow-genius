@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Jesús Vélez Santiago <jvelezmagic@gmail.com>"]
 readme = "README.md"
-packages = [{include = "flow_genius"}]
+packages = [{include = "app"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
