@@ -2,9 +2,19 @@ from fastapi import APIRouter
 from langchain.agents import AgentType, Tool, initialize_agent
 from langchain.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferMemory, RedisChatMessageHistory
-from pydantic import BaseModel
+from langchain.schema import messages_to_dict
+from pydantic import BaseModel, constr
 
 from app.config.settings import settings
+
+
+class Message(BaseModel):
+    type: constr(regex="^(human|ai)$")
+    content: str
+
+
+class Conversation(BaseModel):
+    messages: list[Message]
 
 
 class ConversationInput(BaseModel):
@@ -16,8 +26,19 @@ router = APIRouter(prefix="/conversation")
 
 
 @router.get("/")
-async def get_conversation():
-    return {"message": "Hello World"}
+async def get_conversation(conversation_id: str) -> Conversation:
+    history = RedisChatMessageHistory(
+        session_id=conversation_id, url=settings.redis_url
+    )
+
+    output = [
+        {
+            "type": message.get("type"),
+            "content": message.get("data").get("content"),
+        }
+        for message in messages_to_dict(history.messages)
+    ]
+    return {"messages": output}
 
 
 @router.post("/")
@@ -52,6 +73,4 @@ async def conversation(input: ConversationInput):
     )
 
     response = agent_chain.run(input.message)
-    # print(memory.chat_memory.messages)
-
     return {"answer": response}
