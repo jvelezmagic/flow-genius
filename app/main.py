@@ -1,6 +1,10 @@
 from fastapi import FastAPI
-from app.api.v1.router import router as v1_router
+from dotenv import load_dotenv
+
+from app.api.v1.routes.router import router as v1_router
 from app.config.settings import settings
+
+load_dotenv()
 
 app = FastAPI(
     title=settings.title,
