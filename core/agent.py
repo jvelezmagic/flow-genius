@@ -2,9 +2,13 @@ import yaml
 import os
 from langchain.agents.agent_toolkits.openapi.spec import reduce_openapi_spec
 from langchain.llms.ai21 import AI21
-from langchain.agents.agent_toolkits.openapi import planner
 from langchain.llms.base import LLM
 from langchain.requests import RequestsWrapper
+
+from dotenv import load_dotenv
+
+load_dotenv()
+from langchain.agents.agent_toolkits.openapi import planner
 
 
 class FlowGeniusAgent:
@@ -30,7 +34,7 @@ class FlowGeniusAgent:
 
     def load_openapi_template(self):
         print(os.getcwd())
-        path = os.getcwd() + os.sep + 'openapi' + os.sep + self.openapi_template
+        path = os.getcwd() + os.sep + "openapi" + os.sep + self.openapi_template
         with open(path) as f:
             self.raw_openai_api_spec = yaml.load(f, Loader=yaml.Loader)
         self.openai_api_spec = reduce_openapi_spec(self.raw_openai_api_spec)
@@ -40,11 +44,11 @@ class FlowGeniusAgent:
         self.requests_wrapper = RequestsWrapper()
 
     def run(self, prompt):
-        agent = planner.create_openapi_agent(self.openai_api_spec, self.requests_wrapper, self.llm)
+        agent = planner.create_openapi_agent(
+            self.openai_api_spec, self.requests_wrapper, self.llm
+        )
         return agent.run(prompt)
 
 
 def custom_auth_headers(token):
-    return {
-        'Authorization': f'Bearer {token}'
-    }
+    return {"Authorization": f"Bearer {token}"}
