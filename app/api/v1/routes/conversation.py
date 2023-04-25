@@ -77,6 +77,11 @@ async def conversation(input: ConversationInput):
         llm=llm,
     )
 
+    # TODO: Implement a method to detect client's intent (e.g., booking a room, change reservation, cancel reservation, etc.)
+    # TODO: Implement a method to gather all the information needed through user conversation (e.g., name, dastes, price, type of room, etc.)
+    # TODO: Implement a method to run the intention once all the information is gathered.
+    # TODO: Implement a method to inform the user about the result of ther intention.
+
     result = conversation.predict(input=input.message)
 
     return {"answer": result}
