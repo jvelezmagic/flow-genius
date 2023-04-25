@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     debug: bool = False
     openai_api_key: str = ""
     ai21_api_key: str = ""
+    redis_url: str = ""
 
     class Config:
         env_file = ".env"

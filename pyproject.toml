@@ -15,6 +15,7 @@ uvicorn = "^0.21.1"
 python-dotenv = "^1.0.0"
 ai21 = "^1.0.5"
 uuid = "^1.30"
+redis = "^4.5.4"
 
 
 [tool.poetry.group.dev.dependencies]
