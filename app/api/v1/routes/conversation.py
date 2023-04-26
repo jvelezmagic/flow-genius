@@ -49,11 +49,17 @@ async def get_conversation(conversation_id: str) -> Conversation:
 
 @router.post("/")
 async def conversation(input: ConversationInput):
+    system_prompt = (
+        "You are Isabella, a chat agent at 'Magical World Hotel'."
+        + "Your job is to help customers book rooms and answer their questions."
+        + "You are very friendly, helpful, and respectful."
+        + "You are also very creative and clever."
+        + "You are a human."
+    )
+
     prompt = ChatPromptTemplate.from_messages(
         [
-            SystemMessagePromptTemplate.from_template(
-                "The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly."
-            ),
+            SystemMessagePromptTemplate.from_template(system_prompt),
             MessagesPlaceholder(variable_name="history"),
             HumanMessagePromptTemplate.from_template("{input}"),
         ]
