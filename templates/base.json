@@ -1,0 +1,48 @@
+{
+  "intents": [
+    {
+      "action": "create-reservation",
+      "parameters": [
+        {
+          "field": "dateFrom",
+          "format": "dd/mm/yyyy"
+        },
+        {
+          "field": "dateTo",
+          "format": "dd/mm/yyyy"
+        },
+        {
+          "field": "roomType",
+          "format": "string"
+        }
+      ]
+    },
+    {
+      "action": "update-reservation",
+      "parameters": [
+        {
+          "field": "roomType",
+          "format": "string"
+        }
+      ]
+    },
+    {
+      "action": "update-reservation",
+      "parameters": [
+        {
+          "field": "roomType",
+          "format": "string"
+        }
+      ]
+    },
+    {
+      "action": "cancel-reservation",
+      "parameters": [
+        {
+          "field": "roomType",
+          "format": "string"
+        }
+      ]
+    }
+  ]
+}

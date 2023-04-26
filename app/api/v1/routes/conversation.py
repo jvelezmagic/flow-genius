@@ -1,7 +1,9 @@
+import os
+import json
 from fastapi import APIRouter
 from langchain.chains import ConversationChain, LLMChain
 from langchain.chat_models import ChatOpenAI
-from langchain.llms import OpenAI
+from langchain.llms import AI21
 from langchain.memory import ConversationBufferMemory, RedisChatMessageHistory
 from langchain.prompts import (
     ChatPromptTemplate,
@@ -14,6 +16,8 @@ from langchain.schema import messages_to_dict
 from pydantic import BaseModel, constr
 
 from app.config.settings import settings
+
+from core.chat import FlowGeniusChat
 
 
 class Message(BaseModel):
@@ -86,13 +90,13 @@ async def conversation(input: ConversationInput):
     )
 
     formatted_conversation = (
-        "\n".join(
-            [
-                f"{message.get('type')}: {message.get('data').get('content')}"
-                for message in messages_to_dict(history.messages)
-            ]
-        )
-        + f"\nhuman: {input.message}"
+            "\n".join(
+                [
+                    f"{message.get('type')}: {message.get('data').get('content')}"
+                    for message in messages_to_dict(history.messages)
+                ]
+            )
+            + f"\nhuman: {input.message}"
     )
 
     print(formatted_conversation)
@@ -110,20 +114,38 @@ async def conversation(input: ConversationInput):
     return {"answer": result}
 
 
+@router.post("/start")
+async def start_conversation(data: ConversationInput):
+    path = os.getcwd() + os.sep + 'templates' + os.sep + 'base.json'
+    with open(path, 'r') as file:
+        file_data = file.read()
+        file.close()
+    business = json.loads(file_data)
+
+    intents = business['intents']
+
+    chat = FlowGeniusChat(data.conversation_id, intents)
+
+    return {"answer": chat.run_chain(data.message)}
+
+
 def identify_intent(conversation):
-    llm = OpenAI(temperature=0)
+    llm = AI21(model='j2-grande-instruct', temperature=0)
 
     prompt = PromptTemplate(
         template=(
             "Indicate whether the client wants to do some of the following intents:\n"
-            "- create-reservation: True / False\n"
-            "- update-reservation: True / False\n"
-            "- cancel-reservation: True / False\n"
-            "- ask-for-information: True / False\n\n"
-            "Mark the intent(s) that the client wants to do with True or False\n"
-            "Do not change the order and case of the intents.\n\n"
+            "- create-reservation: 1 for True / 0 for False \n"
+            "- update-reservation: 1 for True / 0 for False \n"
+            "- cancel-reservation: 1 for True / 0 for False \n"
+            "- ask-for-information: 1 for True / 0 for False \n"
+            "\n"
+            "Mark the intent(s) that the client wants to do with 1 for True or 0 for False\n"
+            "Do not change the order and case of the intents."
+            "\n\n"
             "This is the conversation between you and the client:\n"
-            "'''\n{conversation}'''\n\n"
+            "'''\n{conversation}'''"
+            "\n\n"
             "Intents:"
         ),
         input_variables=["conversation"],
