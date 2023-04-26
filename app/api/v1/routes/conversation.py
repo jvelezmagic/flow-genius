@@ -1,11 +1,13 @@
 from fastapi import APIRouter
+from langchain.chains import ConversationChain, LLMChain
 from langchain.chat_models import ChatOpenAI
-from langchain.chains import ConversationChain
+from langchain.llms import OpenAI
 from langchain.memory import ConversationBufferMemory, RedisChatMessageHistory
 from langchain.prompts import (
     ChatPromptTemplate,
     HumanMessagePromptTemplate,
     MessagesPlaceholder,
+    PromptTemplate,
     SystemMessagePromptTemplate,
 )
 from langchain.schema import messages_to_dict
@@ -51,10 +53,10 @@ async def get_conversation(conversation_id: str) -> Conversation:
 async def conversation(input: ConversationInput):
     system_prompt = (
         "You are Isabella, a chat agent at 'Magical World Hotel'."
-        + "Your job is to help customers book rooms and answer their questions."
-        + "You are very friendly, helpful, and respectful."
-        + "You are also very creative and clever."
-        + "You are a human."
+        "Your job is to help customers book rooms and answer their questions."
+        "You are very friendly, helpful, and respectful."
+        "You are also very creative and clever."
+        "You are a human."
     )
 
     prompt = ChatPromptTemplate.from_messages(
@@ -83,11 +85,55 @@ async def conversation(input: ConversationInput):
         llm=llm,
     )
 
+    formatted_conversation = (
+        "\n".join(
+            [
+                f"{message.get('type')}: {message.get('data').get('content')}"
+                for message in messages_to_dict(history.messages)
+            ]
+        )
+        + f"\nhuman: {input.message}"
+    )
+
+    print(formatted_conversation)
+
+    intent = identify_intent(formatted_conversation)
+
+    print(intent)
     # TODO: Implement a method to detect client's intent (e.g., booking a room, change reservation, cancel reservation, etc.)
     # TODO: Implement a method to gather all the information needed through user conversation (e.g., name, dastes, price, type of room, etc.)
     # TODO: Implement a method to run the intention once all the information is gathered.
     # TODO: Implement a method to inform the user about the result of ther intention.
 
     result = conversation.predict(input=input.message)
+
+    return {"answer": result}
+
+
+def identify_intent(conversation):
+    llm = OpenAI(temperature=0)
+
+    prompt = PromptTemplate(
+        template=(
+            "Indicate whether the client wants to do some of the following intents:\n"
+            "- create-reservation: True / False\n"
+            "- update-reservation: True / False\n"
+            "- cancel-reservation: True / False\n"
+            "- ask-for-information: True / False\n\n"
+            "Mark the intent(s) that the client wants to do with True or False\n"
+            "Do not change the order and case of the intents.\n\n"
+            "This is the conversation between you and the client:\n"
+            "'''\n{conversation}'''\n\n"
+            "Intents:"
+        ),
+        input_variables=["conversation"],
+    )
+
+    chain = LLMChain(
+        llm=llm,
+        prompt=prompt,
+    )
+
+    result = chain.predict(conversation=conversation)
 
     return {"answer": result}
