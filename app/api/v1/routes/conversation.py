@@ -1,7 +1,6 @@
 from fastapi import APIRouter
 from langchain.chains import ConversationChain, LLMChain
 from langchain.chat_models import ChatOpenAI
-from langchain.llms import OpenAI
 from langchain.memory import ConversationBufferMemory, RedisChatMessageHistory
 from langchain.prompts import (
     ChatPromptTemplate,
@@ -67,7 +66,7 @@ async def conversation(input: ConversationInput):
         ]
     )
 
-    llm = ChatOpenAI(temperature=0)
+    llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo")
 
     history = RedisChatMessageHistory(
         session_id=input.conversation_id, url=settings.redis_url
@@ -111,7 +110,7 @@ async def conversation(input: ConversationInput):
 
 
 def identify_intent(conversation):
-    llm = OpenAI(temperature=0)
+    llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo")
 
     prompt = PromptTemplate(
         template=(
