@@ -133,6 +133,11 @@ def identify_intent(conversation):
         prompt=prompt,
     )
 
-    result = chain.predict(conversation=conversation)
+    intents_prediction = chain.predict(conversation=conversation)
 
-    return {"answer": result}
+    intents = {}
+    for intent in intents_prediction.split("\n"):
+        key, value = intent.split(": ")
+        intents[key] = value == "True"
+
+    return intents
