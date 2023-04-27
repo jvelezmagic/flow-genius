@@ -1,0 +1,101 @@
+{
+  "intents": [
+    {
+      "name": "create-reservation",
+      "description": "Create a reservation",
+      "action_url": "https://myserver.com/create-reservation",
+      "action_method": "POST",
+      "action_parameters": [
+        {
+          "field": "firstName",
+          "format": "string",
+          "required": true
+        },
+        {
+          "field": "lastName",
+          "format": "string",
+          "required": true
+        },
+        {
+          "field": "checkInDate",
+          "format": "dd/mm/yyyy",
+          "required": true
+        },
+        {
+          "field": "checkOutDate",
+          "format": "dd/mm/yyyy",
+          "required": true
+        },
+        {
+          "field": "roomType",
+          "format": "string",
+          "required": true
+        },
+        {
+          "field": "numberOfGuests",
+          "format": "integer",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "cancel-reservation",
+      "description": "Cancel a reservation",
+      "action_url": "https://myserver.com/cancel-reservation",
+      "action_method": "POST",
+      "action_parameters": [
+        {
+          "field": "reservationId",
+          "format": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "get-reservation",
+      "description": "Get a reservation",
+      "action_url": "https://myserver.com/get-reservation",
+      "action_method": "GET",
+      "action_parameters": [
+        {
+          "field": "reservationId",
+          "format": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "update-reservation",
+      "description": "Update a reservation",
+      "action_url": "https://myserver.com/update-reservation",
+      "action_method": "POST",
+      "action_parameters": [
+        {
+          "field": "reservationId",
+          "format": "string",
+          "required": true
+        },
+        {
+          "field": "checkInDate",
+          "format": "dd/mm/yyyy",
+          "required": false
+        },
+        {
+          "field": "checkOutDate",
+          "format": "dd/mm/yyyy",
+          "required": false
+        },
+        {
+          "field": "roomType",
+          "format": "string",
+          "required": false
+        },
+        {
+          "field": "numberOfGuests",
+          "format": "integer",
+          "required": false
+        }
+      ]
+    }
+  ]
+}
