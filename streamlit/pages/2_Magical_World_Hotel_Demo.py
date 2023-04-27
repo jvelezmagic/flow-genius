@@ -1,8 +1,14 @@
-import streamlit as st
-from streamlit_chat import message
-import requests
-from pydantic import BaseModel
+import os
 import uuid
+
+import requests
+from dotenv import load_dotenv
+from pydantic import BaseModel
+from streamlit_chat import message
+
+import streamlit as st
+
+load_dotenv()
 
 
 class ConversationInput(BaseModel):
@@ -23,8 +29,11 @@ class Conversation(BaseModel):
     messages: list[Message]
 
 
+API_SERVER = os.getenv("API_SERVER")
+
+
 def get_conversation_id(conversation_id: str) -> Conversation:
-    conversation_url = "http://127.0.0.1:8000/v1/conversation/"
+    conversation_url = f"{API_SERVER}/v1/conversation/"
     method = "GET"
 
     response = requests.request(
@@ -37,7 +46,7 @@ def get_conversation_id(conversation_id: str) -> Conversation:
 
 
 def converse(input: ConversationInput) -> ConversationResponse:
-    conversation_url = "http://127.0.0.1:8000/v1/conversation/"
+    conversation_url = f"{API_SERVER}/v1/conversation/"
 
     response = requests.post(
         conversation_url,
