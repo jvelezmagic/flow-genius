@@ -16,6 +16,9 @@ python-dotenv = "^1.0.0"
 ai21 = "^1.0.5"
 uuid = "^1.30"
 redis = "^4.5.4"
+streamlit = "^1.21.0"
+watchdog = "^3.0.0"
+streamlit-chat = "^0.0.2.2"
 
 
 [tool.poetry.group.dev.dependencies]
