@@ -4,7 +4,7 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "[[ \"$APP_TYPE\" == \"streamlit\" ]] && poetry run streamlit run streamlit/Home.py || poetry run uvicorn app.main:app --host 0.0.0.0 --port \"$PORT\"",
+    "startCommand": "[[ \"$APP_TYPE\" == \"streamlit\" ]] && poetry run streamlit run --server.address 0.0.0.0 --server.port \"$PORT\" streamlit/Home.py || poetry run uvicorn app.main:app --host 0.0.0.0 --port \"$PORT\"",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   }
