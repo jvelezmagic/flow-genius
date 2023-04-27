@@ -1,6 +1,7 @@
 {
   "conventionalCommits.scopes": [
     "mock-up",
-    "conversation"
+    "conversation",
+    "streamlit"
   ]
 }
