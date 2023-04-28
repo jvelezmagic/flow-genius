@@ -21,10 +21,14 @@ class ConversationInput(BaseModel):
     message: str
 
 
+class ConversationResponse(BaseModel):
+    message: str
+
+
 router = APIRouter(prefix="/conversation")
 
 
-@router.get("/")
+@router.get("/", response_model=Conversation)
 async def get_conversation(conversation_id: str) -> Conversation:
     history = RedisChatMessageHistory(
         session_id=conversation_id, url=settings.redis_url
@@ -40,8 +44,8 @@ async def get_conversation(conversation_id: str) -> Conversation:
     return {"messages": output}
 
 
-@router.post("/")
-async def conversation(data: ConversationInput):
-    flow_genius = FlowGenius(data.conversation_id, 'hotel.json')
+@router.post("/", response_model=ConversationResponse)
+async def conversation(data: ConversationInput) -> ConversationResponse:
+    flow_genius = FlowGenius(data.conversation_id, "hotel.json")
 
-    return flow_genius.converse(data.message)
+    return {"message": flow_genius.converse(data.message)}
