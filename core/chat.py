@@ -1,5 +1,7 @@
 import json
 
+from langchain.llms import AI21
+
 from core.constants.prompts import (
     system_prompt,
     action_prompt,
@@ -52,9 +54,8 @@ class FlowGenius:
         self.conversation_llm: ChatOpenAI = ChatOpenAI(
             temperature=0, model_name="gpt-3.5-turbo"
         )
-        self.intent_llm: ChatOpenAI = ChatOpenAI(
-            temperature=0, model_name="gpt-3.5-turbo"
-        )
+        self.intent_llm: AI21 = AI21()
+
         self.schema_llm: ChatOpenAI = ChatOpenAI(
             temperature=0, model_name="gpt-3.5-turbo"
         )
@@ -110,14 +111,14 @@ class FlowGenius:
                 )
 
                 if execute_intent:
-                    execution_ok = self.execute_intent_class.execute_action(
+                    response_action, execution_ok = self.execute_intent_class.execute_action(
                         intent, parsed_info
                     )
 
                     if execution_ok:
                         messages_template.append(
                             SystemMessagePromptTemplate.from_template(
-                                message_successful(intent)
+                                message_successful(intent, response_action)
                             )
                         )
                     else:

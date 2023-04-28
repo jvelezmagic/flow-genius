@@ -14,7 +14,7 @@ class ExecuteIntent:
 
         self.headers = self.set_headers()
 
-    def execute_action(self, intent: Intent, data: dict) -> bool:
+    def execute_action(self, intent: Intent, data: dict) -> [str, bool]:
         self.intent = intent
         self.data = data
 
@@ -30,27 +30,27 @@ class ExecuteIntent:
             else:
                 raise ValueError('Action Method not was found')
         except ValueError:
-            return False
+            return [None, False]
 
-    def execute_post(self) -> bool:
+    def execute_post(self) -> [str, bool]:
         payload = {
             "data": self.data
         }
         res = requests.request('POST', self.intent.action_url, json=payload, headers=self.headers)
         print(res)
-        return True
+        return [res.text, True]
 
-    def execute_get(self) -> bool:
+    def execute_get(self) -> [str, bool]:
         requests.get(self.intent.action_url, headers=self.headers)
-        return True
+        return ['', True]
 
-    def execute_put(self) -> bool:
+    def execute_put(self) -> [str, bool]:
         requests.put(self.intent.action_url, data=json.dumps(self.data), headers=self.headers)
-        return True
+        return ['', True]
 
-    def execute_delete(self) -> bool:
+    def execute_delete(self) -> [str, bool]:
         requests.delete(self.intent.action_url, headers=self.headers)
-        return True
+        return ['', True]
 
     def set_headers(self) -> dict:
 

@@ -1,3 +1,4 @@
+import re
 from textwrap import dedent
 import datetime
 
@@ -81,9 +82,12 @@ def message_intent_template(intent, data_collected):
     )
 
 
-def message_successful(intent):
+def message_successful(intent, data: str):
+    pattern = r'[{}]'
+    data = re.sub(pattern, '\n', data)
     return dedent(
         f"You executed the intent: '''{intent.name}''' with description: '''{intent.description}'''."
+        f"Response to the user with the next information: '''{data}'''. "
         "Don't ask the customer for more information.\n"
         "You already collected the information from the customer and executed the intent successfully.\n"
         "Inform the customer that you executed the intent was successfully.\n"
