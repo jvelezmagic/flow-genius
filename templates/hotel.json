@@ -41,8 +41,8 @@
     {
       "name": "cancel-reservation",
       "description": "Cancel a reservation",
-      "action_url": "https://myserver.com/cancel-reservation",
-      "action_method": "POST",
+      "action_url": "https://accessible-tremendous-hot.strapiapp.com/api/reservations/",
+      "action_method": "DELETE",
       "action_parameters": [
         {
           "field": "reservationId",
@@ -53,13 +53,13 @@
     },
     {
       "name": "get-reservation",
-      "description": "Get a reservation",
-      "action_url": "https://myserver.com/get-reservation",
+      "description": "Get a reservation. Dates are in dd/mm/yyyy format.",
+      "action_url": "https://accessible-tremendous-hot.strapiapp.com/api/reservations?filters[id][$eq]=",
       "action_method": "GET",
       "action_parameters": [
         {
           "field": "reservationId",
-          "format": "string",
+          "format": "number",
           "required": true
         }
       ]
@@ -67,8 +67,8 @@
     {
       "name": "update-reservation",
       "description": "Update a reservation",
-      "action_url": "https://myserver.com/update-reservation",
-      "action_method": "POST",
+      "action_url": "https://accessible-tremendous-hot.strapiapp.com/api/reservations/",
+      "action_method": "PUT",
       "action_parameters": [
         {
           "field": "reservationId",
