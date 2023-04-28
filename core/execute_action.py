@@ -53,8 +53,12 @@ class ExecuteIntent:
         return ["", True]
 
     def execute_delete(self) -> list[str, bool]:
-        requests.delete(self.intent.action_url, headers=self.headers)
-        return ["", True]
+        reservation_id = self.data.get("reservationId")
+
+        res = requests.delete(
+            f"{self.intent.action_url}{reservation_id}", headers=self.headers
+        )
+        return [res.text, True]
 
     def set_headers(self) -> dict:
         if self.auth.get("type") == "Bearer":
