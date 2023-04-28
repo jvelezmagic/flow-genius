@@ -19,7 +19,6 @@ from core.text_format.message_format import (
     parse_intents,
 )
 from core.text_format.message_format import (
-    parse_customer_information,
     parse_action_confirmation,
     parse_data_parameters,
 )
@@ -91,6 +90,7 @@ class FlowGenius:
         )
         predicted_intents = self.predict_intents(formatted_conversation)
 
+        should_we_gather_data = True
         for i, intent in enumerate(predicted_intents, 1):
             data_collected = self.predict_gathered_data_for_intent(
                 intent, formatted_conversation
@@ -100,6 +100,8 @@ class FlowGenius:
                 parsed_info = parse_data_parameters(
                     intent.action_parameters, data_collected
                 )
+
+                should_we_gather_data = False
 
                 execute_intent = self.predict_check_for_intent_action(
                     intent=intent,
@@ -133,11 +135,12 @@ class FlowGenius:
             except ValueError as e:
                 print(f"Error: {e}")
 
-            messages_template.append(
-                SystemMessagePromptTemplate.from_template(
-                    message_prompt_template(intent, data_collected)
+            if should_we_gather_data:
+                messages_template.append(
+                    SystemMessagePromptTemplate.from_template(
+                        message_prompt_template(intent, data_collected)
+                    )
                 )
-            )
 
         chat_prompt_template = ChatPromptTemplate.from_messages(
             messages=messages_template
