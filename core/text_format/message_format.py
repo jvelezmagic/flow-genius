@@ -1,4 +1,3 @@
-import re
 from langchain.schema import messages_to_dict
 
 from core.models.intents import Intent, ActionParameter
@@ -27,7 +26,7 @@ def parse_intents(business_intents: list[Intent], intents_text: str) -> list[Int
         if len(action) == 2:
             name = action[0]
             active = action[1]
-            if active == 'True':
+            if active == "True":
                 active_intents.append(name)
         x += 1
 
@@ -37,7 +36,10 @@ def parse_intents(business_intents: list[Intent], intents_text: str) -> list[Int
     return [intent for intent in business_intents if intent.name in active_intents]
 
 
-def parse_customer_information(action_params: list[ActionParameter], customer_info: str) -> dict:
+def parse_customer_information(
+    action_params: list[ActionParameter], customer_info: str
+) -> dict:
+    print(customer_info)
     parsed_info = {}
 
     for param in action_params:
@@ -61,11 +63,9 @@ def parse_customer_information(action_params: list[ActionParameter], customer_in
         # Extract the value of the field from the customer information
         end_index = customer_info.find("\n", start_index)
         if end_index == -1:
-            value = customer_info[start_index + len(search_string):].strip()
+            value = customer_info[start_index + len(search_string) :].strip()
         else:
-            value = customer_info[
-                    start_index + len(search_string): end_index
-                    ].strip()
+            value = customer_info[start_index + len(search_string) : end_index].strip()
 
         # Remove any trailing non-numeric characters from the value if it's an integer
         if field_format == "integer":
@@ -76,15 +76,22 @@ def parse_customer_information(action_params: list[ActionParameter], customer_in
             value = value.rstrip("'")
             value = float(value)
         # Add the parsed value to the result dictionary
-        parsed_info[field_name] = value
 
+        if value == "":
+            raise ValueError(
+                f"Required field '{field_name}' not found in customer information"
+            )
+        parsed_info[field_name] = value
     return parsed_info
 
 
-def parse_data_parameters(action_params: list[ActionParameter], customer_info: str) -> dict:
+def parse_data_parameters(
+    action_params: list[ActionParameter], customer_info: str
+) -> dict:
+    return parse_customer_information(action_params, customer_info)
     pairs = customer_info.split("\n")
 
-    pattern = r'[^a-zA-Z0-9]+'
+    pattern = r"[^a-zA-Z0-9]+"
 
     data: dict = {}
     for pair in pairs:
