@@ -35,7 +35,9 @@ def load_intents_from_json(path: str) -> list[Intent]:
     return intents
 
 
-intents = load_intents_from_json("./templates/intents.json")
+intents_json_file = "./templates/hotel.json"
+
+intents = load_intents_from_json(intents_json_file)
 
 
 st.title("🧞‍♀️ Flow Genie Configuration")
@@ -161,12 +163,21 @@ with intent_ui:
                             index=0 if action_parameter.required else 1,
                             disabled=True,
                         )
+
+    st.subheader("Authentication")
+    st.text_input(
+        "Bearer Token",
+        key="authentication",
+        value="Bearer ",
+        disabled=True,
+        type="password",
+    )
+
 with intent_json:
     intent_json.write("The JSON schema for the intents detector.")
 
-    filename = "intents.json"
-
-    with open(f"./templates/{filename}") as f:
+    with open(intents_json_file) as f:
         intents_data = json.load(f)
+        del intents_data["auth"]
 
     intent_json.json(intents_data)

@@ -4,7 +4,7 @@ from langchain.schema import messages_to_dict
 from pydantic import BaseModel, constr
 
 from app.config.settings import settings
-from core.genius import FlowGenius
+from core.chat import FlowGenius
 
 
 class Message(BaseModel):
@@ -45,11 +45,7 @@ async def get_conversation(conversation_id: str) -> Conversation:
 
 
 @router.post("/", response_model=ConversationResponse)
-async def conversation(input: ConversationInput) -> ConversationResponse:
-    flow_genius = FlowGenius(
-        conversation_id=input.conversation_id,
-    )
+async def conversation(data: ConversationInput) -> ConversationResponse:
+    flow_genius = FlowGenius(data.conversation_id, "hotel.json")
 
-    return {
-        "message": flow_genius.converse(input.message),
-    }
+    return {"message": flow_genius.converse(data.message)}

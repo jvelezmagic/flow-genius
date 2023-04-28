@@ -3,7 +3,7 @@
     {
       "name": "create-reservation",
       "description": "Create a reservation",
-      "action_url": "https://myserver.com/create-reservation",
+      "action_url": "https://accessible-tremendous-hot.strapiapp.com/api/reservations",
       "action_method": "POST",
       "action_parameters": [
         {
@@ -33,7 +33,7 @@
         },
         {
           "field": "numberOfGuests",
-          "format": "integer",
+          "format": "string",
           "required": true
         }
       ]
@@ -97,5 +97,9 @@
         }
       ]
     }
-  ]
+  ],
+  "auth": {
+    "type": "Bearer",
+    "token": "692de6710c6aed109aa790a9b2e80c97425497fa6ffd62013919d5f0c98b8543471d8f4ca1344761becd14e63862b97e4d43ca9a8c10b0bd298569c4dac0223edf511f633fbc352ee952641cb3eab7bdac578395f349a1fa86df84112705b3f83da784ca675223c11db5db19ddb68ade7946ef867e36e7538623c6518df2deae"
+  }
 }

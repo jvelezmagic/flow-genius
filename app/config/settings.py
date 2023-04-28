@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     openai_api_key: str = ""
     ai21_api_key: str = ""
     redis_url: str = ""
-    intents_path: str = "./templates/intents.json"
+    intents_path: str = "./templates/"
     verbose: bool = False
 
     class Config:
