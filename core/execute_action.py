@@ -47,10 +47,18 @@ class ExecuteIntent:
         return [res.text, True]
 
     def execute_put(self) -> list[str, bool]:
-        requests.put(
-            self.intent.action_url, data=json.dumps(self.data), headers=self.headers
+        reservation_id = self.data.get("reservationId")
+        payload = {"data": self.data}
+
+        if self.data.get("numberOfGuests"):
+            payload["data"]["numberOfGuests"] = str(self.data.get("numberOfGuests"))
+
+        res = requests.put(
+            f"{self.intent.action_url}{reservation_id}",
+            json=payload,
+            headers=self.headers,
         )
-        return ["", True]
+        return [res.text, True]
 
     def execute_delete(self) -> list[str, bool]:
         reservation_id = self.data.get("reservationId")

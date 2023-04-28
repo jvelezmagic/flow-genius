@@ -67,8 +67,8 @@
     {
       "name": "update-reservation",
       "description": "Update a reservation",
-      "action_url": "https://myserver.com/update-reservation",
-      "action_method": "POST",
+      "action_url": "https://accessible-tremendous-hot.strapiapp.com/api/reservations/",
+      "action_method": "PUT",
       "action_parameters": [
         {
           "field": "reservationId",
