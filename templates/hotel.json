@@ -53,7 +53,7 @@
     },
     {
       "name": "get-reservation",
-      "description": "Get a reservation",
+      "description": "Get a reservation. Dates are in dd/mm/yyyy format.",
       "action_url": "https://accessible-tremendous-hot.strapiapp.com/api/reservations?filters[id][$eq]=",
       "action_method": "GET",
       "action_parameters": [
