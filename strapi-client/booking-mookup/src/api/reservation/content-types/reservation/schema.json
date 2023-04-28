@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "reservations",
+  "info": {
+    "singularName": "reservation",
+    "pluralName": "reservations",
+    "displayName": "Reservation",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "reservation_id": {
+      "type": "uid"
+    },
+    "firstName": {
+      "type": "string"
+    },
+    "lastName": {
+      "type": "string"
+    },
+    "checkInDate": {
+      "type": "string"
+    },
+    "checkOutDate": {
+      "type": "string"
+    },
+    "roomType": {
+      "type": "string"
+    },
+    "numberOfGuests": {
+      "type": "string"
+    },
+    "metadata": {
+      "type": "json"
+    },
+    "roomId": {
+      "type": "string"
+    }
+  }
+}
