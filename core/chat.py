@@ -111,9 +111,10 @@ class FlowGenius:
                 )
 
                 if execute_intent:
-                    response_action, execution_ok = self.execute_intent_class.execute_action(
-                        intent, parsed_info
-                    )
+                    (
+                        response_action,
+                        execution_ok,
+                    ) = self.execute_intent_class.execute_action(intent, parsed_info)
 
                     if execution_ok:
                         messages_template.append(

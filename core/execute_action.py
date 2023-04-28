@@ -13,7 +13,7 @@ class ExecuteIntent:
 
         self.headers = self.set_headers()
 
-    def execute_action(self, intent: Intent, data: dict) -> [str, bool]:
+    def execute_action(self, intent: Intent, data: dict) -> list[str, bool]:
         self.intent = intent
         self.data = data
 
@@ -31,7 +31,7 @@ class ExecuteIntent:
         except ValueError:
             return [None, False]
 
-    def execute_post(self) -> [str, bool]:
+    def execute_post(self) -> list[str, bool]:
         payload = {"data": self.data}
         res = requests.request(
             "POST", self.intent.action_url, json=payload, headers=self.headers
@@ -39,20 +39,20 @@ class ExecuteIntent:
         print(res)
         return [res.text, True]
 
-    def execute_get(self) -> [str, bool]:
+    def execute_get(self) -> list[str, bool]:
         reservation_id = self.data.get("reservationId")
         res = requests.get(
             f"{self.intent.action_url}{reservation_id}", headers=self.headers
         )
         return [res.text, True]
 
-    def execute_put(self) -> [str, bool]:
+    def execute_put(self) -> list[str, bool]:
         requests.put(
             self.intent.action_url, data=json.dumps(self.data), headers=self.headers
         )
         return ["", True]
 
-    def execute_delete(self) -> [str, bool]:
+    def execute_delete(self) -> list[str, bool]:
         requests.delete(self.intent.action_url, headers=self.headers)
         return ["", True]
 
