@@ -38,10 +38,14 @@ gather_prompt = dedent(
     "'''\n{action_args}\n'''\n"
     "Here is the conversation of the customer and the ai agent:\n"
     "'''\n{formatted_conversation}\n'''\n\n"
-    "Create a key-value pair for each argument in the format: key: value\n"
-    "All arguments should be provided.\n"
-    "Do not change the order or case of the arguments.\n"
-    "If the argument is not provided, leave the value empty.\n"
+    "Create a key-value pair for each field in the format: 'key: value'\n"
+    "All fields should be provided.\n"
+    "Do not change the order or case of the fields.\n"
+    "If the field value is not provided, leave the value empty.\n"
+    "Example:\n"
+    "ActionParameter(field='reservationId', format='number', required=True)]"
+    "'''\nreservationId: 12345\n'''\n"
+    "Extracted information:\n"
 )
 
 intent_prompt = dedent(
@@ -83,8 +87,8 @@ def message_intent_template(intent, data_collected):
 
 
 def message_successful(intent, data: str):
-    pattern = r'[{}]'
-    data = re.sub(pattern, '\n', data)
+    pattern = r"[{}]"
+    data = re.sub(pattern, "\n", data)
     return dedent(
         f"You executed the intent: '''{intent.name}''' with description: '''{intent.description}'''."
         f"Response to the user with the next information: '''{data}'''. "
