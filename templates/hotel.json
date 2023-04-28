@@ -54,12 +54,12 @@
     {
       "name": "get-reservation",
       "description": "Get a reservation",
-      "action_url": "https://myserver.com/get-reservation",
+      "action_url": "https://accessible-tremendous-hot.strapiapp.com/api/reservations?filters[id][$eq]=",
       "action_method": "GET",
       "action_parameters": [
         {
           "field": "reservationId",
-          "format": "string",
+          "format": "number",
           "required": true
         }
       ]

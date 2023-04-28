@@ -6,7 +6,6 @@ from core.models.intents import Intent
 
 
 class ExecuteIntent:
-
     def __init__(self, auth: dict):
         self.auth = auth
         self.data: Union[dict, None] = None
@@ -19,45 +18,49 @@ class ExecuteIntent:
         self.data = data
 
         try:
-            if self.intent.action_method == 'POST':
+            if self.intent.action_method == "POST":
                 return self.execute_post()
-            elif self.intent.action_method == 'GET':
+            elif self.intent.action_method == "GET":
                 return self.execute_get()
-            elif self.intent.action_method == 'PUT':
+            elif self.intent.action_method == "PUT":
                 return self.execute_put()
-            elif self.intent.action_method == 'DELETE':
+            elif self.intent.action_method == "DELETE":
                 return self.execute_delete()
             else:
-                raise ValueError('Action Method not was found')
+                raise ValueError("Action Method not was found")
         except ValueError:
             return [None, False]
 
     def execute_post(self) -> [str, bool]:
-        payload = {
-            "data": self.data
-        }
-        res = requests.request('POST', self.intent.action_url, json=payload, headers=self.headers)
+        payload = {"data": self.data}
+        res = requests.request(
+            "POST", self.intent.action_url, json=payload, headers=self.headers
+        )
         print(res)
         return [res.text, True]
 
     def execute_get(self) -> [str, bool]:
-        requests.get(self.intent.action_url, headers=self.headers)
-        return ['', True]
+        reservation_id = self.data.get("reservationId")
+        res = requests.get(
+            f"{self.intent.action_url}{reservation_id}", headers=self.headers
+        )
+        return [res.text, True]
 
     def execute_put(self) -> [str, bool]:
-        requests.put(self.intent.action_url, data=json.dumps(self.data), headers=self.headers)
-        return ['', True]
+        requests.put(
+            self.intent.action_url, data=json.dumps(self.data), headers=self.headers
+        )
+        return ["", True]
 
     def execute_delete(self) -> [str, bool]:
         requests.delete(self.intent.action_url, headers=self.headers)
-        return ['', True]
+        return ["", True]
 
     def set_headers(self) -> dict:
-
-        if self.auth.get('type') == 'Bearer':
+        if self.auth.get("type") == "Bearer":
             return {
-                'Content-Type': 'application/json',
-                'Authorization': f"Bearer {self.auth.get('token')}"
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {self.auth.get('token')}",
             }
 
         return {}
