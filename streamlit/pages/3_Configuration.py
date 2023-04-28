@@ -163,6 +163,16 @@ with intent_ui:
                             index=0 if action_parameter.required else 1,
                             disabled=True,
                         )
+
+    st.subheader("Authentication")
+    st.text_input(
+        "Bearer Token",
+        key="authentication",
+        value="Bearer ",
+        disabled=True,
+        type="password",
+    )
+
 with intent_json:
     intent_json.write("The JSON schema for the intents detector.")
 
