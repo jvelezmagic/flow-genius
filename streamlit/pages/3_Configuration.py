@@ -40,7 +40,7 @@ intents_json_file = "./templates/hotel.json"
 intents = load_intents_from_json(intents_json_file)
 
 
-st.title("🧞‍♀️ Flow Genie Configuration")
+st.title("🧞‍♀️ Flow Genius Configuration")
 st.subheader("Service Name")
 
 st.write("The name of the service that will be displayed to the user.")
