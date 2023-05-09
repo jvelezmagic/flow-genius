@@ -51,16 +51,19 @@ class FlowGenius:
         self.memory: Union[ConversationBufferMemory, None] = None
         self.memory_key: str = "history"
 
-        self.conversation_llm: ChatOpenAI = ChatOpenAI(
+        self.conversation_llm: ChatOpenAI | AI21 = ChatOpenAI(
             temperature=0, model_name="gpt-3.5-turbo"
         )
-        self.intent_llm: AI21 = AI21()
+        self.intent_llm: ChatOpenAI | AI21 = AI21(
+            temperature=0, model="j2-jumbo-instruct"
+        )
 
-        self.schema_llm: ChatOpenAI = ChatOpenAI(
-            temperature=0, model_name="gpt-3.5-turbo"
+        self.schema_llm: ChatOpenAI | AI21 = AI21(
+            temperature=0, model="j2-jumbo-instruct"
         )
-        self.confirmation_llm: ChatOpenAI = ChatOpenAI(
-            temperature=0, model_name="gpt-3.5-turbo"
+
+        self.confirmation_llm: ChatOpenAI | AI21 = AI21(
+            temperature=0, model="j2-jumbo-instruct"
         )
 
         self.verbose: bool = settings.verbose
