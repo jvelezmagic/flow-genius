@@ -43,6 +43,7 @@ gather_prompt = dedent(
     "Output example:\n"
     "field: value\n"
     "field2: value2\n"
+    "field3: \n"
     "\n\n"
     "Extracted information:\n"
 )

@@ -14,21 +14,19 @@ def format_conversation_with_incoming(messages, message: str) -> str:
 
 
 def parse_intents(business_intents: list[Intent], intents_text: str) -> list[Intent]:
-    intents = [line.strip().split(": ") for line in intents_text.strip().split("\n")]
+    intents = [
+        line.strip().lstrip("- ").split(": ")
+        for line in intents_text.strip().split("\n")
+    ]
 
     if not intents:
         return []
 
     active_intents = []
-    x = 0
-    while x < len(intents):
-        action = intents[x]
-        if len(action) == 2:
-            name = action[0]
-            active = action[1]
-            if active == "True":
-                active_intents.append(name)
-        x += 1
+
+    for intent, is_active in intents:
+        if is_active == "True":
+            active_intents.append(intent)
 
     if not active_intents:
         return []
