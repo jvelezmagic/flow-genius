@@ -27,7 +27,8 @@ action_prompt = dedent(
     "Information collected:\n"
     "'''\n{customer_info}\n'''\n\n"
     "Keep in mind that the most recent messages are the most relevant. "
-    "Answers:\n"
+    "MOST RECENT MESSAGES SHOULD BE CONSIDERED FIRST.\n"
+    "Statements to validate:\n"
 )
 
 gather_prompt = dedent(
@@ -88,6 +89,9 @@ def message_intent_template(intent, data_collected):
         f"'''\n{data_collected}\n'''\n"
         "Ask the customer for confirmation with all the details you collected from them.\n"
         "Ask the customer to review the information and confirm if it's correct."
+        "Don't ask the customer for more information.\n"
+        "You already collected the information from the customer.\n"
+        "Don't add any other question. Just ask them to confirm their information collected.\n"
     )
 
 
