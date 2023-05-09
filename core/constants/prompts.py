@@ -27,7 +27,7 @@ action_prompt = dedent(
     "Information collected:\n"
     "'''\n{customer_info}\n'''\n\n"
     "Keep in mind that the most recent messages are the most relevant. "
-    "Your answer should be either 'True' or 'False'.\n\n"
+    "Your answer should be either 'True' or 'False' based on the conversation excerpt.\n\n"
     "A simple afirmative answer from the customer is enough to confirm the action.\n"
     "Answer:\n"
 )
@@ -42,9 +42,10 @@ gather_prompt = dedent(
     "All fields should be provided.\n"
     "Do not change the order or case of the fields.\n"
     "If the field value is not provided, leave the value empty.\n"
-    "Example:\n"
-    "ActionParameter(field='reservationId', format='number', required=True)]"
-    "'''\nreservationId: 12345\n'''\n"
+    "Output example:\n"
+    "field: value\n"
+    "field2: value2\n"
+    "\n\n"
     "Extracted information:\n"
 )
 
@@ -59,7 +60,12 @@ intent_prompt = dedent(
     "Intents:\n{formatted_intents}\n\n"
     "Here is the conversation of the customer and the ai agent:\n"
     "'''\n{formatted_conversation}\n'''\n\n"
-    "Intents:\n"
+    "Mark the intents that best matches the conversation with True or False.\n"
+    "Output should follow the format: 'intent_name: True/False'\n"
+    "Do not change the order or case of the intents.\n"
+    "Do not add or remove any intents.\n"
+    "Do not give any other information other than the intent name and True/False.\n"
+    "Predicted intents:\n"
 )
 
 
