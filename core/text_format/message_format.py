@@ -118,4 +118,4 @@ def parse_data_parameters(
 
 
 def parse_action_confirmation(action_confirmation_text: str) -> bool:
-    return action_confirmation_text.strip() == "True"
+    return action_confirmation_text.count("True") == 2

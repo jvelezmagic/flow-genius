@@ -15,7 +15,7 @@ system_prompt = dedent(
 action_prompt = dedent(
     "Determine whether the following statements are true by reviewing the conversation "
     "between the AI agent and the customer. Provide a single-word answer: 'True' "
-    "if both statements are accurate, and 'False' if either one is incorrect.\n\n"
+    "per each statement if the statement is true, or 'False' if the statement is false.\n\n"
     "Statements to validate:\n"
     "1. The AI agent has asked the customer to review the captured information.\n"
     "2. The customer has confirmed the action with the AI agent.\n\n"
@@ -27,9 +27,7 @@ action_prompt = dedent(
     "Information collected:\n"
     "'''\n{customer_info}\n'''\n\n"
     "Keep in mind that the most recent messages are the most relevant. "
-    "Your answer should be either 'True' or 'False' based on the conversation excerpt.\n\n"
-    "A simple afirmative answer from the customer is enough to confirm the action.\n"
-    "Answer:\n"
+    "Answers:\n"
 )
 
 gather_prompt = dedent(
