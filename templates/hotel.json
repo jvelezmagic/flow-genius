@@ -100,6 +100,6 @@
   ],
   "auth": {
     "type": "Bearer",
-    "token": "8dce093f238f0de8196f87a1090a830e6e13cb42e84bb0d36c65f66c9fd0e3d4ec129e3767940e146b45fed725504c6d6cb1f6bf154fc4d1d65e96df694646ee3949a0bb293caa226776e442aa4a446908090852d630f5ab250f1b6955885bdbb5c4a30a3c0ac664ef5d54b7da8805b3777e2badc5a9899fbde56ede1611a5e5"
+    "token": "MAGIC_HOTEL_API_TOKEN"
   }
 }

@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     redis_url: str = ""
     intents_path: str = "./templates/"
     verbose: bool = False
+    magic_hotel_api_token: str = ""
 
     class Config:
         env_file = ".env"

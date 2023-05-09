@@ -221,6 +221,7 @@ class FlowGenius:
     def load_business_data(self):
         with open(settings.intents_path + self.business_path) as f:
             data = json.load(f)
+            data["auth"]["token"] = settings.magic_hotel_api_token
 
         self.intents = [
             Intent(
