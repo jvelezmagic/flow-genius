@@ -39,7 +39,6 @@ def parse_intents(business_intents: list[Intent], intents_text: str) -> list[Int
 def parse_customer_information(
     action_params: list[ActionParameter], customer_info: str
 ) -> dict:
-    print(customer_info)
     parsed_info = {}
 
     for param in action_params:
